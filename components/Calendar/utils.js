@@ -5,14 +5,14 @@ function getFirstWeekDay (year, month) {
 }
 
 // 当月多少天
-function getMontDayCount (year, month) {
+function getMonthDayCount (year, month) {
   const date = new Date(year, month, 0)
   return date.getDate()
 }
 
 function getLastMonthRestDays (year, month) {
   const days = getFirstWeekDay(year, month)
-  let lastDate = getMontDayCount(year, month - 1)
+  let lastDate = getMonthDayCount(year, month - 1)
   const restDays = []
   while (restDays.length < days) {
     restDays.push(lastDate--)
@@ -22,7 +22,7 @@ function getLastMonthRestDays (year, month) {
 
 function getNextMonthRestDays (year, month) {
   const lastMonthRestDayCount = getFirstWeekDay(year, month)
-  const currentMonthRestDayCount = getMontDayCount(year, month)
+  const currentMonthRestDayCount = getMonthDayCount(year, month)
   const nextMonthRestDayCount = 42 - (lastMonthRestDayCount + currentMonthRestDayCount)
   const restDay = []
   for (let i = 1; i <= nextMonthRestDayCount; i++) {
@@ -46,4 +46,13 @@ function getFormatDate (year, month, date) {
     dateArr[i] < 10 && (dateArr[i] = '0' + dateArr[i])
   }
   return dateArr.join('-')
+}
+
+export {
+  getFirstWeekDay,
+  getMonthDayCount,
+  getLastMonthRestDays,
+  getNextMonthRestDays,
+  getDateInfo,
+  getFormatDate
 }
