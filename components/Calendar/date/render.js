@@ -1,7 +1,9 @@
-import { createWeekDaysNode, createDateNode, createDateTrs, createControlArea } from "./creator"
+import { createWeekDaysNode, createDateNode, createControlArea } from "./creator"
+import './index.less'
 
+export function render (oContainer, year, month) {
+  oContainer.innerHTML = ''
 
-export function render (oContainer) {
   const oTable = document.createElement('table')
   oTable.className = 'my-calendar-table'
 
@@ -11,21 +13,18 @@ export function render (oContainer) {
 
   const weekDayNode = createWeekDaysNode()
 
-  return function (year, month) {
-    oTHead.appendChild(weekDayNode)
-    const controlArea = createControlArea(year, month)
+  oTHead.appendChild(weekDayNode)
+  const controlArea = createControlArea(year, month)
 
-    const dateTrs = createDateNode(year, month)
-    dateTrs.forEach(tr => {
-      oTBody.appendChild(tr)
-    })
+  const dateTrs = createDateNode(year, month)
+  dateTrs.forEach(tr => {
+    oTBody.appendChild(tr)
+  })
 
-    oTable.appendChild(oTHead)
-    oTable.appendChild(oTBody)
-    oContainer.appendChild(controlArea)
-    oContainer.appendChild(oTable)
-    return oContainer
-  }
+  oTable.appendChild(oTHead)
+  oTable.appendChild(oTBody)
+  oContainer.appendChild(controlArea)
+  oContainer.appendChild(oTable)
 }
 export function update (year, month) {
   const oTBody = document.querySelector('.my-calendar-body')

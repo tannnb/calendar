@@ -1,18 +1,17 @@
-import { getDateInfo } from './utils'
-import { render, update } from './render'
-import './index.less'
 import event from './event'
-import reactive from './reactive'
+import {reactive} from './store'
+import { render } from './date/render'
+import './index.less'
 
-export default (handler) => {
+export default (el, [year, month], handler) => {
+  const App = document.querySelector(el)
+
   const oContainer = document.createElement('div')
   oContainer.className = 'my-calendar'
-  const dateInfo = reactive()
+
+  render(oContainer, year, month)
+  const dateInfo = reactive({ year, month })
   event(oContainer, handler, dateInfo)
 
-  return {
-    render: render(oContainer),
-    update,
-    getDateInfo
-  }
+  App.appendChild(oContainer)
 }

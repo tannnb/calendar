@@ -1,20 +1,28 @@
 
-import { getMonthDayCount, getNextMonthRestDays, getDateInfo, getLastMonthRestDays, getFormatDate } from "./utils"
+import { getMonthDayCount, getNextMonthRestDays, getLastMonthRestDays, getFormatDate } from "./utils"
+import { getDateInfo } from "../utils"
 import { WEEK_DAYS } from "./config"
+import { createTrs } from "../utils"
 
+const domPool = {
+  weekDays: null,
+  controlArea: null
+}
 
 export function createWeekDaysNode () {
-  const oTr = document.createElement('tr')
-  oTr.className = 'week-day'
-  oTr.innerHTML = WEEK_DAYS.map(item => (`<th>${item}</th>`)).join('')
-  return oTr
+  if (!domPool.weekDays) {
+    domPool.weekDays = document.createElement('tr')
+    domPool.weekDays.className = 'week-day'
+    domPool.weekDays.innerHTML = WEEK_DAYS.map(item => (`<th>${item}</th>`)).join('')
+  }
+  return domPool.weekDays
 }
 
 export function createDateNode (year, month) {
   const lastMonthRestDayCount = getLastMonthRestDays(year, month)
   const currentMonthRestDayCount = getMonthDayCount(year, month)
   const nextMonthRestDays = getNextMonthRestDays(year, month)
-  const dateTrArr = createDateTrs(6)
+  const dateTrArr = createTrs(6)
 
   const lastMonthRestDaysTd = createRestDaysTd(lastMonthRestDayCount)
   const currentMonthRestDaysTd = createCurrentDaysTd(currentMonthRestDayCount, year, month)
@@ -35,15 +43,6 @@ export function createDateNode (year, month) {
   })
 
   return dateTrArr
-}
-
-export function createDateTrs (count) {
-  const trArr = []
-  for (let i = 0; i < count; i++) {
-    const oTr = document.createElement('tr')
-    trArr.push(oTr)
-  }
-  return trArr
 }
 
 function createRestDaysTd (restArr) {
@@ -71,18 +70,24 @@ function createCurrentDaysTd (currentDayCount, year, month) {
 }
 
 export function createControlArea (year, month) {
-  const oArea = document.createElement('div')
-  oArea.className = 'control-area'
+  if (!domPool.controlArea) {
+    domPool.controlArea = document.createElement('div')
+    domPool.controlArea.className = 'control-area'
 
-  oArea.innerHTML = `
-    <span class='control-btn btn-year-lt'>&lt;&lt;</span>
-    <span class='control-btn btn-month-lt'>&lt;</span>
-    <span class='control-show'>
-      <span class='control-title'><span class='title-year'>${year}</span>年</span>
-      <span class='control-title'><span class='title-month'>${month}</span>月</span>
-    </span>
-    <span class='control-btn btn-month-gt'>&gt;</span>
-    <span class='control-btn btn-year-gt'>&gt;&gt;</span>
-  `
-  return oArea
+    domPool.controlArea.innerHTML = `
+      <span class='control-btn btn-year-lt'>&lt;&lt;</span>
+      <span class='control-btn btn-month-lt'>&lt;</span>
+      <span class='control-show'>
+        <span class='control-title'><span class='title-year'>${year}</span>年</span>
+        <span class='control-title'><span class='title-month'>${month}</span>月</span>
+      </span>
+      <span class='control-btn btn-month-gt'>&gt;</span>
+      <span class='control-btn btn-year-gt'>&gt;&gt;</span>
+    `
+  } else {
+    domPool.controlArea.querySelector('.title-year') = year
+    domPool.controlArea.querySelector('.title-month') = month
+  }
+
+  return domPool.controlArea
 }

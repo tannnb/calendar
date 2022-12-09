@@ -1,9 +1,8 @@
-import { getDateInfo } from "./utils"
-import { update } from './render'
+import { update } from './date/render'
 
-export default () => {
+export function reactive ({ year, month }) {
   const dateInfo = {}
-  const _dateInfo = getDateInfo()
+  const _dateInfo = [year, month]
 
   Object.defineProperties(dateInfo, {
     year: {
