@@ -2,11 +2,13 @@ import { getDateInfo } from './utils'
 import { render, update } from './render'
 import './index.less'
 import event from './event'
+import reactive from './reactive'
 
 export default (handler) => {
-  const oContainer = document.createElement('table')
+  const oContainer = document.createElement('div')
   oContainer.className = 'my-calendar'
-  event(oContainer, handler)
+  const dateInfo = reactive()
+  event(oContainer, handler, dateInfo)
 
   return {
     render: render(oContainer),

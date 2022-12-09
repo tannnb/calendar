@@ -69,3 +69,20 @@ function createCurrentDaysTd (currentDayCount, year, month) {
   }
   return oTdArr
 }
+
+export function createControlArea (year, month) {
+  const oArea = document.createElement('div')
+  oArea.className = 'control-area'
+
+  oArea.innerHTML = `
+    <span class='control-btn btn-year-lt'>&lt;&lt;</span>
+    <span class='control-btn btn-month-lt'>&lt;</span>
+    <span class='control-show'>
+      <span class='control-title'><span class='title-year'>${year}</span>年</span>
+      <span class='control-title'><span class='title-month'>${month}</span>月</span>
+    </span>
+    <span class='control-btn btn-month-gt'>&gt;</span>
+    <span class='control-btn btn-year-gt'>&gt;&gt;</span>
+  `
+  return oArea
+}
