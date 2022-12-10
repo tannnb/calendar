@@ -36,7 +36,7 @@ export function createDateNode (year, month) {
 
   let index = 0
   dateTrArr.forEach(tr => {
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 7 && tdArr[index]; i++) {
       tr.appendChild(tdArr[index])
       index++;
     }
@@ -59,8 +59,11 @@ function createCurrentDaysTd (currentDayCount, year, month) {
   const [currentYear, currentMonth, currentDate] = getDateInfo()
   for (let i = 1; i <= currentDayCount; i++) {
     const oTd = document.createElement('td')
-    const currentActive = currentYear === year && currentMonth === month && currentDate === i
-    oTd.className = currentActive ? 'day current-day current' : 'day current-day'
+
+    oTd.className = 'day current-day'
+    if (currentYear === year && currentMonth === month && currentDate === i) {
+      oTd.className += ' current'
+    }
 
     oTd.innerText = i
     oTd.setAttribute('data-date', getFormatDate(year, month, i))
@@ -85,8 +88,8 @@ export function createControlArea (year, month) {
       <span class='control-btn btn-year-gt'>&gt;&gt;</span>
     `
   } else {
-    domPool.controlArea.querySelector('.title-year') = year
-    domPool.controlArea.querySelector('.title-month') = month
+    domPool.controlArea.querySelector('.title-year').innerText = year
+    domPool.controlArea.querySelector('.title-month').innerText = month
   }
 
   return domPool.controlArea

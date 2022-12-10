@@ -17,9 +17,7 @@ export function render (oContainer, year, month) {
   const controlArea = createControlArea(year, month)
 
   const dateTrs = createDateNode(year, month)
-  dateTrs.forEach(tr => {
-    oTBody.appendChild(tr)
-  })
+  dateTrs.forEach(tr => oTBody.appendChild(tr))
 
   oTable.appendChild(oTHead)
   oTable.appendChild(oTBody)

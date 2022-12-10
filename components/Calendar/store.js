@@ -1,4 +1,38 @@
-import { update } from './date/render'
+import { update as dateUpdate, render as dateRender } from './date/render'
+import { update as yearUpdate, render as yearRender } from './year/render'
+
+export const ALLOWED_FLAGS = {
+  'YEAR': "YEAR",
+  'MONTH': "MONTH",
+  'DATE': "DATE",
+}
+let currentFlag = ALLOWED_FLAGS.DATE
+
+export function getFlag () {
+  return currentFlag
+}
+
+export function setFlag (value, container, { year, month }) {
+  if (ALLOWED_FLAGS[value]) {
+    currentFlag = ALLOWED_FLAGS[value]
+
+    switch (currentFlag) {
+      case ALLOWED_FLAGS.YEAR:
+        yearRender(container, year, month)
+        break
+      case ALLOWED_FLAGS.MONTH:
+
+        break
+      case ALLOWED_FLAGS.DATE:
+        console.log(container)
+        dateRender(container, year, month)
+        break
+      default:
+        break
+    }
+  }
+}
+
 
 export function reactive ({ year, month }) {
   const dateInfo = {}
@@ -11,7 +45,7 @@ export function reactive ({ year, month }) {
       },
       set (newValue) {
         _dateInfo[0] = newValue
-        update(_dateInfo[0], _dateInfo[1])
+        update(..._dateInfo)
       }
     },
     month: {
@@ -20,9 +54,24 @@ export function reactive ({ year, month }) {
       },
       set (newValue) {
         _dateInfo[1] = newValue
-        update(_dateInfo[0], _dateInfo[1])
+        update(..._dateInfo)
       }
     }
   })
   return dateInfo
+}
+
+function update (year, month) {
+  switch (currentFlag) {
+    case ALLOWED_FLAGS.YEAR:
+      yearUpdate(year, month)
+      break
+    case ALLOWED_FLAGS.MONTH:
+      break
+    case ALLOWED_FLAGS.DATE:
+      dateUpdate(year, month)
+      break
+    default:
+      break
+  }
 }
