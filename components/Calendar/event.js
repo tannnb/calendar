@@ -20,11 +20,20 @@ function handleClick (...args) {
   }
   if (className.includes('decade-year')) {
     yearClick(oContainer, target, dateInfo)
+    return
+  }
+  if(className.includes('static-momth')) {
+    monthClick(oContainer, target, dateInfo)
+    return
   }
 
   // 点击年
   if (className === 'title-year') {
-    titleClick(oContainer, dateInfo)
+    titleYearClick(oContainer, dateInfo)
+    return
+  }
+  if (className === 'title-month') {
+    titleMonthClick(oContainer, dateInfo)
     return
   }
 
@@ -33,20 +42,32 @@ function handleClick (...args) {
       yearControlClick(className, dateInfo)
       break
     case ALLOWED_FLAGS.MONTH:
+      monthControlClick(className,dateInfo)
       break
     case ALLOWED_FLAGS.DATE:
-      controlClick(className, dateInfo)
+      dateControlClick(className, dateInfo)
       break
     default:
       break
   }
 }
 
-
-function titleClick (conatiner, dateInfo) {
+function titleYearClick (conatiner, dateInfo) {
   setFlag(ALLOWED_FLAGS.YEAR, conatiner, dateInfo)
 }
+function titleMonthClick (conatiner, dateInfo) {
+  setFlag(ALLOWED_FLAGS.MONTH, conatiner, dateInfo)
+}
 
+
+function yearClick (container, target, dateInfo) {
+  dateInfo.year = Number(target.dataset.year)
+  setFlag(ALLOWED_FLAGS.DATE, container, dateInfo)
+}
+function monthClick(container, target, dateInfo) {
+  dateInfo.month = Number(target.dataset.month)
+  setFlag(ALLOWED_FLAGS.DATE, container, dateInfo)
+}
 function dateClick (target, handler) {
   if (activeTarget) {
     activeTarget.className = activeTarget.className.replace(' selected', '')
@@ -56,29 +77,6 @@ function dateClick (target, handler) {
   handler && handler(target.dataset.date)
 }
 
-function yearClick (container, target, dateInfo) {
-  dateInfo.year = Number(target.dataset.year)
-  setFlag(ALLOWED_FLAGS.DATE, container, dateInfo)
-}
-
-function controlClick (className, dateInfo) {
-  switch (className) {
-    case 'control-btn btn-year-lt':
-      dateInfo.year -= 1
-      break;
-    case 'control-btn btn-month-lt':
-      dateInfo.month -= 1
-      break;
-    case 'control-btn btn-month-gt':
-      dateInfo.month += 1
-      break;
-    case 'control-btn btn-year-gt':
-      dateInfo.year += 1
-      break;
-    default:
-      break
-  }
-}
 
 function yearControlClick (className, dateInfo) {
   switch (className) {
@@ -92,4 +90,33 @@ function yearControlClick (className, dateInfo) {
       break
   }
 }
-
+function monthControlClick (className, dateInfo) {
+  switch (className) {
+    case 'month-control-btn btn-year-lt':
+      dateInfo.year-= 1
+      break;
+    case 'month-control-btn btn-year-gt':
+      dateInfo.year += 1
+      break;
+    default:
+      break
+  }
+}
+function dateControlClick (className, dateInfo) {
+  switch (className) {
+    case 'control-btn btn-year-lt':
+      dateInfo.year -= 1
+      break;
+    case 'control-btn btn-month-lt':
+      dateInfo.month > 1 && (dateInfo.month -= 1)
+      break;
+    case 'control-btn btn-month-gt':
+      dateInfo.month < 12 && (dateInfo.month += 1)
+      break;
+    case 'control-btn btn-year-gt':
+      dateInfo.year += 1
+      break;
+    default:
+      break
+  }
+}

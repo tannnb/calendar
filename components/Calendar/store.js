@@ -1,5 +1,6 @@
 import { update as dateUpdate, render as dateRender } from './date/render'
 import { update as yearUpdate, render as yearRender } from './year/render'
+import { update as monthUpdate, render as monthRender } from './month/render'
 
 export const ALLOWED_FLAGS = {
   'YEAR': "YEAR",
@@ -21,15 +22,30 @@ export function setFlag (value, container, { year, month }) {
         yearRender(container, year, month)
         break
       case ALLOWED_FLAGS.MONTH:
-
+        monthRender(container, year, month)
         break
       case ALLOWED_FLAGS.DATE:
-        console.log(container)
         dateRender(container, year, month)
         break
       default:
         break
     }
+  }
+}
+
+function update (year, month) {
+  switch (currentFlag) {
+    case ALLOWED_FLAGS.YEAR:
+      yearUpdate(year, month)
+      break
+    case ALLOWED_FLAGS.MONTH:
+      monthUpdate(year)
+      break
+    case ALLOWED_FLAGS.DATE:
+      dateUpdate(year, month)
+      break
+    default:
+      break
   }
 }
 
@@ -61,17 +77,3 @@ export function reactive ({ year, month }) {
   return dateInfo
 }
 
-function update (year, month) {
-  switch (currentFlag) {
-    case ALLOWED_FLAGS.YEAR:
-      yearUpdate(year, month)
-      break
-    case ALLOWED_FLAGS.MONTH:
-      break
-    case ALLOWED_FLAGS.DATE:
-      dateUpdate(year, month)
-      break
-    default:
-      break
-  }
-}

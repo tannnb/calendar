@@ -1,0 +1,48 @@
+.my-month-calendar-table {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  
+  tr {
+    height: 38px;
+    text-align: center;
+  }
+  td {
+    text-align: center;
+  }
+  .static-momth{
+    cursor: pointer;
+    &.current {
+      color:#1989fa;
+      font-weight: bold;
+    }
+  }
+}
+
+.month-control-area {
+  height: 30px;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  .month-control-btn {
+    float: left;
+    display: block;
+    width: 30px;
+    color:#1989fa;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+  }
+  .control-show {
+    float: left;
+    width: 262px;
+    display: block;
+    text-align: center;
+    line-height: 30px;
+    color:#1989fa;
+    cursor: pointer;
+    &:hover {
+      color:#1989fa;
+      font-weight: bold;
+    }
+  }
+}
